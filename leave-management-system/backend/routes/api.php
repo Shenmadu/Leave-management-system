@@ -6,12 +6,12 @@ use App\Http\Controllers\API\AdminController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/leaves', [LeaveController::class, 'store']);
+
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 
-    // Route::post('/leaves', [LeaveController::class, 'store']);
+    Route::post('/leaves', [LeaveController::class, 'store']);
     Route::get('/leaves', [LeaveController::class, 'index']);
     Route::put('/leaves/{id}', [LeaveController::class, 'update']);
 
