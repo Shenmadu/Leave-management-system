@@ -11,7 +11,10 @@ class AdminController extends Controller
 {
     public function users()
     {
-        $users = User::withCount('leaves')->get();
+        $users = User::with(['role', 'leaves'])
+            ->withCount('leaves')
+            ->get();
+
         return response()->json($users);
     }
 

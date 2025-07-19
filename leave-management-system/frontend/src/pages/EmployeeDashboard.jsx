@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeDashboard = () => {
   const [form, setForm] = useState({ start_date: '', end_date: '', reason: '', type: '' });
   const [leaves, setLeaves] = useState([]);
 
-  const fetchLeaves = async () => {
-    const res = await axios.get('/leaves');
-    setLeaves(res.data);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
-  const applyLeave = async (e) => {
-    e.preventDefault();
-    await axios.post('/leaves', form);
-    fetchLeaves();
-  };
+
+  const fetchLeaves = async () => {
+    const res = await axios.get('/leaves');
+        setLeaves(res.data);
+    };
+
+    const applyLeave = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.post('/leaves', form);
+            fetchLeaves();
+
+            // Clear the form after successful submit
+            setForm({
+            from: '',
+            to: '',
+            type: '',
+            reason: '',
+            });
+        } catch (error) {
+            console.error('Failed to apply leave:', error);
+        }
+    };
 
   useEffect(() => {
     fetchLeaves();
@@ -22,7 +43,10 @@ const EmployeeDashboard = () => {
 
   return (
     <div className="container mt-5">
-      <h2>Employee Dashboard</h2>
+        <div className="d-flex justify-content-between align-items-center">
+            <h2>Employee Dashboard</h2>
+            <button onClick={handleLogout} className="btn btn-danger">Logout</button>
+        </div>
 
       <form onSubmit={applyLeave} className="mt-4">
         <div className="row mb-3">

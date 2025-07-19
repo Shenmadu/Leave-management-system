@@ -1,41 +1,65 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/axios';
 
 const AdminDashboard = () => {
   const [leaves, setLeaves] = useState([]);
+  const [users, setUsers] = useState([]);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const fetchLeaves = async () => {
     try {
       const res = await axios.get('/admin/leaves');
-      console.log("res", res);
       setLeaves(res.data);
     } catch (err) {
       console.error(err);
-      setError("Unauthorized or token missing");
+      setError('Unauthorized or token missing');
+    }
+  };
+
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get('/admin/users');
+      setUsers(res.data);
+    } catch (err) {
+      console.error(err);
+      setError('Failed to fetch users');
     }
   };
 
   const handleApprove = async (id, status) => {
     try {
-      const url = `/admin/leaves/${id}/${status}`;
-      await axios.put(url);
+      await axios.put(`/admin/leaves/${id}/${status}`);
       fetchLeaves();
     } catch (err) {
       console.error(err);
-      setError("Failed to update leave status");
+      setError('Failed to update leave status');
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   useEffect(() => {
     fetchLeaves();
+    fetchUsers();
   }, []);
 
   return (
     <div className="container mt-5">
-      <h2>Admin Dashboard</h2>
+      <div className="d-flex justify-content-between align-items-center">
+        <h2>Admin Dashboard</h2>
+        <button className="btn btn-outline-danger" onClick={handleLogout}>Logout</button>
+      </div>
+
       {error && <div className="alert alert-danger">{error}</div>}
-      <table className="table table-striped mt-4">
+
+      {/* Leave Requests */}
+      <h4 className="mt-4">Leave Requests</h4>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>User</th>
@@ -65,6 +89,33 @@ const AdminDashboard = () => {
                     </>
                   )}
                 </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+
+      {/* User Overview */}
+      <h4 className="mt-5">User Overview</h4>
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>            
+          </tr>
+        </thead>
+        <tbody>
+          {users.length === 0 ? (
+            <tr><td colSpan="4" className="text-center">No users found</td></tr>
+          ) : (
+            users.map((user, idx) => (
+              <tr key={user.id}>
+                <td>{idx + 1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.role?.name || '-'}</td>
               </tr>
             ))
           )}

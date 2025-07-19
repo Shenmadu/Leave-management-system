@@ -19,8 +19,7 @@ function App() {
         <Route
           path="/admin"
           element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}
-        />
-        {/* <Route path="*" element={<NotFound />} /> */}
+        />        
       </Routes>
     </BrowserRouter>
   );

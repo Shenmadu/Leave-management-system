@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Admin user
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -22,5 +23,12 @@ class UserSeeder extends Seeder
             'role_id' => Role::where('name', 'admin')->first()->id,
         ]);
 
+        // Employee user
+        User::create([
+            'name' => 'Employee One',
+            'email' => 'employee1@example.com',
+            'password' => bcrypt('password'),
+            'role_id' => Role::where('name', 'employee')->first()->id,
+        ]);
     }
 }
