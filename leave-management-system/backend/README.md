@@ -7,7 +7,7 @@ This is the **backend RESTful API** for the Leave Management System, built using
 ## Tech Stack
 
 - **Laravel 11**
-- **MySQL** / MariaDB
+- **MySQL**
 - **Laravel Passport** (OAuth2 for API authentication)
 - **RESTful API**
 - **Database Seeders** for initial data
@@ -23,7 +23,7 @@ Make sure you have the following installed:
 - **PHP** >= 8.2
 - **Composer**
 - **MySQL**
-- Laravel CLI *(optional but recommended)*
+- Laravel CLI
 
 ---
 
@@ -31,5 +31,29 @@ Make sure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone <repo-url>
    cd leave-management-system/backend
+
+2. **install dependencies**
+   composer install
+
+3. **Create .env file**
+   cp .env.example .env
+
+4. **Update .env database configuration**
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=leave_management
+   DB_USERNAME=root
+   DB_PASSWORD=
+
+5. **Generate app key**
+   php artisan key:generate
+
+6. **Run migrations**
+   php artisan migrate
+
+7 **Run seeders**
+   php artisan db:seed --class=RoleSeeder
+   php artisan db:seed --class=UserSeeder
