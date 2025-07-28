@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../api/axios';
 import React, { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +12,7 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/register', { name, email, password });
+      const res = await axios.post('/register', { name, email, password, role_id: 1 });
       localStorage.setItem('token', res.data.token);
       navigate('/employee');
     } catch (err) {

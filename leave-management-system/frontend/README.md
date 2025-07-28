@@ -26,6 +26,11 @@ This is the **frontend** of the **Leave Management System**, built with **React*
 
 1. **Clone the repository**
 
-```bash
+
 git clone <repo-url>
 cd leave-management-system/frontend
+
+## System Login
+
+Admin: Email: admin@example.com Password: password
+Employee: Email: employee1@example.com Password: password
