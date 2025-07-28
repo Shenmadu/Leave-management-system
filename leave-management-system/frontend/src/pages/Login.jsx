@@ -55,6 +55,15 @@ export default function Login() {
 
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
+        {/* Register redirect button */}
+        <div className="text-center mt-3">
+          <button
+            className="btn btn-link"
+            onClick={() => navigate('/register')}
+          >
+            Don't have an account? Register here
+          </button>
+        </div>
       </div>
     </div>
   );
